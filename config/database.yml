@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: db
+  username: postgres
+  password:
+  pool: 5
+
+development:
+  <<: *default
+  database: OpenChatBoard_development
+
+test:
+  <<: *default
+  database: OpenChatBoard_test
+
+production:
+  <<: *default
+  database: OpenChatBoard_production
+  username: OpenChatBoard
+  password: <%= ENV['OPENCHATBOARD_DATABASE_PASSWORD'] %>
