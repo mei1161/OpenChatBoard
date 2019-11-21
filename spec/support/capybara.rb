@@ -10,8 +10,6 @@ Capybara.register_driver :chrome_headless do |app|
 end
 
 Capybara.javascript_driver = :chrome_headless
-#  Capybara.configure do |config|
-#   config.run_server = false
-#   config.default_driver = :selenium
-#   config.app_host = 'http://0.0.0.0:3000/' # localhost(rails s)
-# end
+Capybara.configure do |config|
+  config.app_host = 'https://open-chat-board.herokuapp.com/'
+end
