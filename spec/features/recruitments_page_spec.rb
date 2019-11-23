@@ -4,7 +4,7 @@ feature 'Recruitments' , js: true do
   scenario 'ShowRecruitments' do
     visit '/recruitments/new'
     fill_in 'Room Name', with: 'asansroom'
-    click 'Recruit'
+    click_on 'Recruit'
 
     visit '/recruitments'
     page.save_screenshot("ShowRecruitments-#{DateTime.now}.png")
