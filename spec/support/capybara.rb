@@ -11,6 +11,6 @@ end
 
 Capybara.javascript_driver = :chrome_headless
 Capybara.configure do |config|
-  config.app_host = 'https://open-chat-board.herokuapp.com'
+  config.app_host = 'https://openchat-board.herokuapp.com'
   config.run_server = false
 end
