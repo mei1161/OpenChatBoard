@@ -6,6 +6,16 @@
   </p>
 
   <p>
+  <%= form.label :room_url,"URL" %><br>
+    <%= form.text_field :room_url %>
+  </p>
+
+  <p>
+  <%= form.label :description,"Description" %><br>
+    <%= form.text_area :description %>
+  </p>
+
+  <p>
     <%= form.submit "Recruit" %>
   </p>
 <% end %>
