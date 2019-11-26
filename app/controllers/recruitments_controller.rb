@@ -3,6 +3,10 @@ class RecruitmentsController < ApplicationController
     @recruitments = Recruitment.all
   end
   
+  def show
+    @recruitment = Recruitment.find(params[:id])
+  end
+
   def new
   end
 

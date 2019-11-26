@@ -1,7 +1,7 @@
 <h1>Top</h1>
 <p>Test Room</p>
+<tr>
+  <th>Room Name</th>
 <% @recruitments.each do |recruitment| %>
-   <p><%= recruitment.room_name %></p>
-   <p><%= recruitment.room_url %></p>
-   <p><%= recruitment.description %></p>
+   <p><%= link_to recruitment.room_name, recruitment_path(recruitment) %></p>
  <% end %>
