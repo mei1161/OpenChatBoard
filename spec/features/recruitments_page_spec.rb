@@ -11,7 +11,5 @@ feature 'Recruitments' , js: true do
     visit '/recruitments'
     page.save_screenshot("ShowRecruitments-#{DateTime.now}.png")
     expect(page).to have_css('p',text: 'asansroom')
-    expect(page).to have_css('p',text: 'aaaa')
-    expect(page).to have_css('p',text: 'aa')
   end
 end
