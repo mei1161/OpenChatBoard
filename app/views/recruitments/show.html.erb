@@ -13,4 +13,6 @@
   <%= @recruitment.description %>
 </p>
 <%= link_to 'Back',recruitments_path %>
+<%= link_to 'Destroy',@recruitment,
+  method: :delete, data: {confirm: 'Are you sure?'} %>
 

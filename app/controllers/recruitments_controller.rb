@@ -9,6 +9,13 @@ class RecruitmentsController < ApplicationController
 
   def new
   end
+  
+  def destroy
+    @recruitment = Recruitment.find(params[:id])
+    @recruitment.destroy
+
+    redirect_to recruitments_path
+  end
 
   def create
     @recruitment = Recruitment.new(recruitment_params)
