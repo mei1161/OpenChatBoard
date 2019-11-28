@@ -20,7 +20,7 @@ class RecruitmentsController < ApplicationController
   def create
     @recruitment = Recruitment.new(recruitment_params)
 
-    @recruitment.save!
+    @recruitment.save
     redirect_to recruitments_path
   end
 
