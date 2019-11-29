@@ -1,17 +1,17 @@
 <h1>New Recruitment</h1>
 <%= form_with model: @recruitment, local: true do |form| %>
   <p>
-    <%= form.label :room_name,"OpenChat name" %><br>
+    <%= form.label :room_name,"OpenChat name" %>
     <%= form.text_field :room_name %>
   </p>
 
   <p>
-  <%= form.label :room_url,"Invite URL" %><br>
+    <%= form.label :room_url,"Invite URL" %>
     <%= form.text_field :room_url %>
   </p>
 
   <p>
-  <%= form.label :description,"Description" %><br>
+    <%= form.label :description,"Description" %>
     <%= form.text_area :description %>
   </p>
 
