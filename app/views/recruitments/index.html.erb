@@ -6,5 +6,5 @@
 <% @recruitments.each do |recruitment| %>
   <h2 class="recruitment__openchat-name"><%= recruitment.room_name %></h2>
   <div class="recruitment__description"><%= recruitment.description %></div>
-  <a class="recruitment__invite-url"><%= link_to 'Join',recruitment.room_url %></a>
+  <%= link_to 'Join',recruitment.room_url,class: "recruitment__invite-url" %>
  <% end %>
