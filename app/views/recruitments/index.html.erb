@@ -1,8 +1,10 @@
 <h1>Top</h1>
 <p>Test Room</p>
 <p><%= link_to 'Create Recruitment',new_recruitment_path %></p>
-<tr>
-  <th>Room Name</th>
+<p>Room Name</p>
+
 <% @recruitments.each do |recruitment| %>
-   <p><%= link_to recruitment.room_name, recruitment_path(recruitment) %></p>
+  <h2 class="recruitment__openchat-name"><%= recruitment.room_name %></h2>
+  <div class="recruitment__description"><%= recruitment.description %></div>
+  <a class="recruitment__invite-url"><%= link_to 'Join',recruitment.room_url %></a>
  <% end %>

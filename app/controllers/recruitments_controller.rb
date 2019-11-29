@@ -8,7 +8,9 @@ class RecruitmentsController < ApplicationController
   end
 
   def new
+    @recruitment = Recruitment.new
   end
+
   
   def destroy
     @recruitment = Recruitment.find(params[:id])
@@ -22,6 +24,15 @@ class RecruitmentsController < ApplicationController
 
     @recruitment.save
     redirect_to recruitments_path
+  end
+
+  def edit
+    @recrutiment = Recruitment.find(params[:id])
+  end
+  def update
+    @recruitment = Recruitment.find(params[:id])
+
+      @recruitment.update(recruitment_params)
   end
 
   private 
