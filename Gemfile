@@ -57,8 +57,7 @@ group :test do
   gem 'capybara'
   gem 'chromedriver-helper'
   gem 'launchy','~> 2.4.3'
-  # Easy installation and use of chromedriver to run system tests with Chrome
-  gem 'chromedriver-helper'
+  gem 'database_cleaner'
 end
 
 

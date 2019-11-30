@@ -11,7 +11,7 @@ feature 'Recruitments' , js: true do
     visit '/recruitments'
     page.save_screenshot("ShowRecruitments-#{DateTime.now}.png")
     expect(page).to have_css('.recruitment__openchat-name',text: 'testchat')
-    expect(page).to have_css('.recruitment__invite-url',text:'https://line.me/ti/g2/EUz')
     expect(page).to have_css('.recruitment__description',text:'aa')
+    text = find('.recruitment__openchat-name',text:'testchat')
   end
 end
