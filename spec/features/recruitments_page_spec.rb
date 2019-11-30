@@ -12,6 +12,12 @@ feature 'Recruitments' , js: true do
     page.save_screenshot("ShowRecruitments-#{DateTime.now}.png")
     expect(page).to have_css('.recruitment__openchat-name',text: 'testchat')
     expect(page).to have_css('.recruitment__description',text:'aa')
-    text = find('.recruitment__openchat-name',text:'testchat')
+    openchat_name = find('.recruitment__openchat-name',text:'testchat')
+    recruitment = openchat_name.find(:xpath,"..")
+    within(recruitment) do
+      click_on 'Join'
+    end
+    expect(page).to have_title "LINE OPENCHAT"
+    page.save_screenshot("ShowRecruitments_Clicked_join-#{DateTime.now}.png")
   end
 end
