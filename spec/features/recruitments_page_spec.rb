@@ -24,7 +24,7 @@ feature 'Recruitments' , js: true do
     result = recruit(
       openchat_name:openchat_name,
       invite_url:invite_url,
-      description:description
+      description:description,
       password:password)
 
     visit '/recruitments'
@@ -41,5 +41,40 @@ feature 'Recruitments' , js: true do
 
     expect(page).to have_title "LINE OPENCHAT"
     page.save_screenshot("ShowRecruitments_Clicked_join-#{DateTime.now}.png")
+  end
+
+  scenario 'EditRecruitment' do
+    openchat_name = "testchat2"
+    invite_url = "https://line.me/ti/g2/EUz"
+    description = "aa"
+    password = "123"
+
+    result = recruit(
+      openchat_name:openchat_name,
+      invite_url:invite_url,
+      description:description,
+      password:password)
+
+    page.save_screenshot("EditRecruitment-#{DateTime.now}.png")
+    within(result) do
+      expect(page).to have_css('.recruitment__openchat-name',text: openchat_name)
+      expect(page).to have_css('.recruitment__description',text: description)
+    end
+
+    within(result) do
+      click_on 'Edit'
+    end
+
+    within(result) do
+      expect(page).to have_css('.recruitment__openchat-name',text: openchat-name)
+    end
+    fill_in 'Description',with: "aa"
+    fill_in 'Password',with: password
+    click_on 'Recruit'
+
+    within(result) do
+      expect(page).to have_css('.recruitment__openchat-name',text: openchat-name)
+      expect(page).to have_css('.recruitment__openchat-description',text: "aa")
+    end
   end
 end

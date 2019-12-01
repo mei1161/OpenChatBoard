@@ -37,7 +37,18 @@ class RecruitmentsController < ApplicationController
   def update
     @recruitment = Recruitment.find(params[:id])
 
-      @recruitment.update(recruitment_params)
+    unless @recruitment.authenticate(recruitment_params['password'])
+      flash[:notice] = "Password Invalid"
+      redirect_to edit_recruitment\path(@recruitment) and return
+    end
+    
+    if @recruitment.update(recruitment_params)
+      flash[:notice] = "update success"
+      redirect_to recruitments_path
+    else
+      flash[:notice] = @recruitment.errors.full_messages
+      redirect_to recruitments_path
+    end
   end
 
   private 
