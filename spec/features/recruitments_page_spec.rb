@@ -66,14 +66,14 @@ feature 'Recruitments' , js: true do
     end
 
     within(result) do
-      expect(page).to have_css('.recruitment__openchat-name',text: openchat-name)
+      expect(page).to have_css('.recruitment__openchat-name',text: openchat_name)
     end
     fill_in 'Description',with: "aa"
     fill_in 'Password',with: password
     click_on 'Recruit'
 
     within(result) do
-      expect(page).to have_css('.recruitment__openchat-name',text: openchat-name)
+      expect(page).to have_css('.recruitment__openchat-name',text: openchat_name)
       expect(page).to have_css('.recruitment__openchat-description',text: "aa")
     end
   end
