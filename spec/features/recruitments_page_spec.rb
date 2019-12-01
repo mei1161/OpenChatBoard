@@ -70,6 +70,7 @@ feature 'Recruitments' , js: true do
       expect(page).to have_css('.recruitment__openchat-name',text: openchat_name)
       expect(page).to have_css('.recruitment__description',text: "aaa")
     end
+  end
 
 
 end
