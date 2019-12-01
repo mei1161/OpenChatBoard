@@ -10,8 +10,12 @@ feature 'Recruitments' , js: true do
     fill_in 'Password',with: password
     click_on 'Recruit'
 
-    openchat_name = find('.recruitment__openchat-name',text: openchat_name)
-    recruitment =openchat_name.find(:xpath,"..")
+    recruitment = find_recruitment(openchat_name:openchat_name)
+  end
+
+  def find_recruitment(openchat_name:)
+    name = find('.recruitment__openchat-name',text: openchat_name)
+    recruitment = name.find(:xpath,"..")
     return recruitment
   end
 
@@ -46,35 +50,36 @@ feature 'Recruitments' , js: true do
   scenario 'EditRecruitment' do
     openchat_name = "testchat2"
     invite_url = "https://line.me/ti/g2/EUz"
-    description = "aa"
+    description = "aaaa"
     password = "123"
 
-    result = recruit(
+    before_edit = recruit(
       openchat_name:openchat_name,
       invite_url:invite_url,
       description:description,
       password:password)
 
     page.save_screenshot("EditRecruitment-#{DateTime.now}.png")
-    within(result) do
+    within(before_edit) do
       expect(page).to have_css('.recruitment__openchat-name',text: openchat_name)
       expect(page).to have_css('.recruitment__description',text: description)
     end
 
-    within(result) do
+    within(before_edit) do
       click_on 'Edit'
     end
 
-    within(result) do
-      expect(page).to have_css('.recruitment__openchat-name',text: openchat_name)
-    end
     fill_in 'Description',with: "aa"
     fill_in 'Password',with: password
     click_on 'Recruit'
 
-    within(result) do
+
+    edit_after = find_recruitment(openchat_name:openchat_name)
+
+    within(edit_after) do
+      page.save_screenshot("Edit_After-#{DateTime.now}.png")
       expect(page).to have_css('.recruitment__openchat-name',text: openchat_name)
-      expect(page).to have_css('.recruitment__openchat-description',text: "aa")
+      expect(page).to have_css('.recruitment__description',text: "aa")
     end
   end
 end
