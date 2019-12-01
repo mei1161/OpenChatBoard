@@ -37,6 +37,10 @@ class RecruitmentsController < ApplicationController
 
   def update
     @recruitment = Recruitment.find(params[:id])
+    unless @recruitment.authenticate(recruitment_params['password'])
+      flash[:notice] = "Password Invalid"
+      redirect_to edit_recruitment_path(@recruitment) and return 
+    end
 
     if @recruitment.update(recruitment_params)
       flash[:notice] = "update sucess"
@@ -50,6 +54,6 @@ class RecruitmentsController < ApplicationController
 
   private 
   def recruitment_params
-    params.require(:recruitment).permit(:room_name, :room_url, :description) 
+    params.require(:recruitment).permit(:room_name, :room_url, :description,:password) 
   end
 end

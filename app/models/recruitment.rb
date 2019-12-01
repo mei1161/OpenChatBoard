@@ -1,4 +1,5 @@
 class Recruitment < ApplicationRecord
+  has_secure_password
   validates :room_name,presence: true
   validate :check_url
 
