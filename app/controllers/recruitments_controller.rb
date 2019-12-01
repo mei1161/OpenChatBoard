@@ -39,7 +39,7 @@ class RecruitmentsController < ApplicationController
 
     unless @recruitment.authenticate(recruitment_params['password'])
       flash[:notice] = "Password Invalid"
-      redirect_to edit_recruitment\path(@recruitment) and return
+      redirect_to edit_recruitment_path(@recruitment) and return
     end
     
     if @recruitment.update(recruitment_params)
