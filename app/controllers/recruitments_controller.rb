@@ -50,6 +50,6 @@ class RecruitmentsController < ApplicationController
 
   private 
   def recruitment_params
-    params.require(:recruitment).permit(:room_name, :room_url, :description, :password, :password_confirmation)
+    params.require(:recruitment).permit(:room_name, :room_url, :description) 
   end
 end
