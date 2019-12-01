@@ -8,5 +8,6 @@
     <h2 class="recruitment__openchat-name"><%= recruitment.room_name %></h2>
     <div class="recruitment__description"><%= recruitment.description %></div>
     <%= link_to 'Join',recruitment.room_url,class: "recruitment__invite-url" %>
+    <%= link_to 'Edit', edit_recruitment_path(recruitment) %>
   </div>
 <% end %>

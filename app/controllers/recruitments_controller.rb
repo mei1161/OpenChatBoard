@@ -22,21 +22,34 @@ class RecruitmentsController < ApplicationController
   def create
     @recruitment = Recruitment.new(recruitment_params)
 
-    @recruitment.save
-    redirect_to recruitments_path
+    if @recruitment.save
+      flash[:notice] = "create new"
+      redirect_to recruitments_path
+    else
+      flash[:notice] = @recruitment.errors.full_messages
+      redirect_to new_recruitment_path 
+    end
   end
 
   def edit
-    @recrutiment = Recruitment.find(params[:id])
+    @recruitment = Recruitment.find(params[:id])
   end
+
   def update
     @recruitment = Recruitment.find(params[:id])
 
-      @recruitment.update(recruitment_params)
+    if @recruitment.update(recruitment_params)
+      flash[:notice] = "update sucess"
+      redirect_to recruitments_path
+    else
+      flash[:notice] = @recruitment.errors.full_messages
+      redirect_to recruitments_path 
+    end
+      
   end
 
   private 
   def recruitment_params
-    params.require(:recruitment).permit(:room_name, :room_url, :description)
+    params.require(:recruitment).permit(:room_name, :room_url, :description, :password, :password_confirmation)
   end
 end

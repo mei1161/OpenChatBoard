@@ -2,12 +2,12 @@
 <%= form_with model: @recruitment, local: true do |form| %>
   <p>
     <%= form.label :room_name,"OpenChat name" %>
-    <%= form.text_field :room_name %>
+    <%= form.text_field :room_name, required: true %>
   </p>
 
   <p>
     <%= form.label :room_url,"Invite URL" %>
-    <%= form.text_field :room_url %>
+    <%= form.text_field :room_url, required: true %>
   </p>
 
   <p>
