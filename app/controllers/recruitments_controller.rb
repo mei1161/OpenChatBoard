@@ -22,8 +22,13 @@ class RecruitmentsController < ApplicationController
   def create
     @recruitment = Recruitment.new(recruitment_params)
 
-    @recruitment.save
-    redirect_to recruitments_path
+    if @recruitment.save
+      flash[:notice] = "Create new"
+      redirect_to recruitments_path
+    else
+      flash[:notice] = @recruitment.errors.full_messages
+      redirect_to new_recruitment_path
+    end
   end
 
   def edit
@@ -37,6 +42,6 @@ class RecruitmentsController < ApplicationController
 
   private 
   def recruitment_params
-    params.require(:recruitment).permit(:room_name, :room_url, :description)
+    params.require(:recruitment).permit(:room_name, :room_url, :description,:password)
   end
 end
