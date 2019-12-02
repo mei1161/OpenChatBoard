@@ -1,6 +1,6 @@
 <h1>Edit Recruitment</h1>
 
-<%= form_for(@recruitment,local: true) do |form| %>
+<%= form_with model: @recruitment, local: true do |form| %> 
   <p>
     <%= form.label :room_name,"Room Name" %><br>
     <%= form.text_field :room_name %>
@@ -23,9 +23,21 @@
 
   <p>
      <%= submit_tag "Edit" %>
-     <%= submit_tag "Destroy",name: "destroy_button" %>
   </p>
 
 <% end %>
+
+
+<%= form_with url:recruitment_path, method: :delete, local: true do |form| %>
+  <p>
+    <%= form.label :password,"Password for deletion " %><br>
+    <%= form.password_field :password %>
+  </p>
+
+  <p>
+    <%= form.submit "Delete" %>
+  </p>
+<% end %>
+
 
 <%= link_to 'Back',recruitments_path %>

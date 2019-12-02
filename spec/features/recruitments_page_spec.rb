@@ -111,8 +111,8 @@ feature 'Recruitments' , js: true do
       click_on 'Edit'
     end
 
-    fill_in 'Password',with: password
-    click_on 'Destroy'
+    fill_in 'Password for deletion',with: password
+    click_on 'Delete'
 
     page.has_no_css?('.recruitment__openchat-name')
   end

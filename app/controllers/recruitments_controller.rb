@@ -13,6 +13,13 @@ class RecruitmentsController < ApplicationController
 
   
   def destroy
+    @recruitment = Recruitment.find(params[:id])
+
+    password_authenticate(recruitment:@recruitment,params:params)
+
+    @recruitment.destroy
+    redirect_to recruitments_path
+
   end
 
   def create
@@ -34,15 +41,10 @@ class RecruitmentsController < ApplicationController
   def update
     @recruitment = Recruitment.find(params[:id])
 
-    password_authenticate(recruitment:@recruitment)
+    password_authenticate(recruitment:@recruitment,params:recruitment_params)
 
-    if params[:destroy_button]
-      @recruitment.destroy
-      flash[:notice] = "destroy success"
-    else
-      @recruitment.update(recruitment_params)
-      flash[:notice] = "update success"
-    end
+    @recruitment.update(recruitment_params)
+    flash[:notice] = "update success"
 
     redirect_to recruitments_path
   end
@@ -52,8 +54,8 @@ class RecruitmentsController < ApplicationController
     params.require(:recruitment).permit(:room_name, :room_url, :description,:password)
   end
 
-  def password_authenticate(recruitment:)
-    unless @recruitment.authenticate(recruitment_params['password'])
+  def password_authenticate(recruitment:,params:)
+    unless recruitment.authenticate(params['password'])
       flash[:notice] = "Password Invalid"
       redirect_to edit_recruitment_path(recruitment) and return
     end
