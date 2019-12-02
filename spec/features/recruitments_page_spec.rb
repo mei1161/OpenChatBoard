@@ -107,13 +107,13 @@ feature 'Recruitments' , js: true do
       expect(page).to have_css('.recruitment__description',text: description)
     end
 
-    within(bedore_destroy) do
+    within(before_destroy) do
       click_on 'Edit'
     end
 
     fill_in 'Password',with: password
     click_on 'Destroy'
 
-    expect(page).to has_no_css('.recruitment__openchat-name')
+    page.has_no_css?('.recruitment__openchat-name')
   end
 end
