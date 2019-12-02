@@ -14,8 +14,12 @@ class RecruitmentsController < ApplicationController
   
   def destroy
     @recruitment = Recruitment.find(params[:id])
-    @recruitment.destroy
 
+    unless @recruitment.authenticate(recruitment_params['password'])
+      flash[:notice] = "Password Invalid"
+      redirect_to edit_recruitment_path(@recruitment) and return 
+    end
+    @recruitment.destroy
     redirect_to recruitments_path
   end
 

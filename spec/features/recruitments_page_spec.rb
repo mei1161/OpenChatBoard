@@ -19,6 +19,8 @@ feature 'Recruitments' , js: true do
     return recruitment
   end
 
+  #Show-recruitment
+
   scenario 'ShowRecruitments' do
     openchat_name ="testchat"
     invite_url = "https://line.me/ti/g2/EUz"
@@ -47,6 +49,8 @@ feature 'Recruitments' , js: true do
     page.save_screenshot("ShowRecruitments_Clicked_join-#{DateTime.now}.png")
   end
 
+  #Edit-recruitment
+
   scenario 'EditRecruitment' do
     openchat_name = "testchat2"
     invite_url = "https://line.me/ti/g2/EUz"
@@ -71,7 +75,7 @@ feature 'Recruitments' , js: true do
 
     fill_in 'Description',with: "aa"
     fill_in 'Password',with: password
-    click_on 'Recruit'
+    click_on 'Edit'
 
 
     edit_after = find_recruitment(openchat_name:openchat_name)
@@ -81,5 +85,35 @@ feature 'Recruitments' , js: true do
       expect(page).to have_css('.recruitment__openchat-name',text: openchat_name)
       expect(page).to have_css('.recruitment__description',text: "aa")
     end
+  end
+
+  #destroy-test
+
+  scenario 'DestroyRecruitment' do
+    openchat_name = "testchat2"
+    invite_url = "https://line.me/ti/g2/EUz"
+    description = "aaaa"
+    password = "123"
+
+    before_destroy = recruit(
+      openchat_name:openchat_name,
+      invite_url:invite_url,
+      description:description,
+      password:password)
+
+    page.save_screenshot("EditRecruitment-#{DateTime.now}.png")
+    within(before_destroy) do
+      expect(page).to have_css('.recruitment__openchat-name',text: openchat_name)
+      expect(page).to have_css('.recruitment__description',text: description)
+    end
+
+    within(before_edit) do
+      click_on 'Edit'
+    end
+
+    fill_in 'DeletePassword',with: password
+    click_on 'Delete'
+
+    expect(page).to has_no_css('.recruitment__openchat-name')
   end
 end
