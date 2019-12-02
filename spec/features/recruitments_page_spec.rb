@@ -107,7 +107,7 @@ feature 'Recruitments' , js: true do
       expect(page).to have_css('.recruitment__description',text: description)
     end
 
-    within(before_edit) do
+    within(bedore_destroy) do
       click_on 'Edit'
     end
 
