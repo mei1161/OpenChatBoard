@@ -3,7 +3,8 @@ require 'rails_helper'
 feature 'Recruitments' , js: true do
   # Create a new recruitment and return a new recruitment
   def recruit(openchat_name:, invite_url:,description:,password:)
-    visit '/recruitments/new'
+    visit '/recruitments'
+    click_on 'Create Recruitment'
     fill_in 'OpenChat name',with: openchat_name
     fill_in 'Invite URL',with: invite_url
     fill_in 'Description',with: description

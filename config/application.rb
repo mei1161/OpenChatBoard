@@ -20,6 +20,7 @@ module OpenChatBoard
       g.test_framework = "rspec"
       g.controller_specs = false
       g.helper_specs = false
+      g.model_specs = false
       g.view_specs = false
     end
   end
