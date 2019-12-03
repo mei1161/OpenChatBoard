@@ -202,14 +202,16 @@ feature 'Recruitments' , js: true do
 
     after_comment = find_recruitment(openchat_name:openchat_name)
 
+    within before_comment do
       fill_in 'Comment',with: comment 
       fill_in 'Comment Password',with: password
       click_on 'Comment'
+    end
 
     within(before_comment) do
       expect(page).to have_css('.recruitment__comment',text: comment) 
     end
-    
+
   end
 
   # Delete related comments by deleting recruitment 
@@ -229,9 +231,9 @@ feature 'Recruitments' , js: true do
 
 
 
-      fill_in 'Comment',with: comment 
-      fill_in 'Comment Password',with: password
-      click_on 'Comment'
+    fill_in 'Comment',with: comment 
+    fill_in 'Comment Password',with: password
+    click_on 'Comment'
 
     page.save_screenshot("AfterComment-#{DateTime.now}.png")
 
@@ -240,11 +242,37 @@ feature 'Recruitments' , js: true do
       click_on 'Edit'
     end
 
-      fill_in 'Password for deletion', with: password
-      click_on 'Delete'
+    fill_in 'Password for deletion', with: password
+    click_on 'Delete'
 
     expect(page).to have_no_css('.recruitment__comment')
-    
   end
 
+  # Test reply to comment 
+#
+#  scenario 'ReplyTest' do
+#    openchat_name = "test"
+#    invite_url = "https://line.me/ti/g2/EUz"
+#    description = "aaaa"
+#    password = "123"
+#    comment = "this is a pen"
+#
+#    before_comment = recruit(
+#      openchat_name:openchat_name,
+#      invite_url:invite_url,
+#      description:description,
+#      password:password)
+#
+#    page.save_screenshot("BeforeComment-#{DateTime.now}.png")
+#
+#    within(before_comment) do
+#      fill_in 'Comment',with: comment 
+#      fill_in 'Comment Password',with: password
+#      click_on 'Comment'
+#    end
+#
+#    within(before_comment) do
+#      expect(page).to have_css('.recruitment__comment',text: comment) 
+#    end
+#  end
 end
