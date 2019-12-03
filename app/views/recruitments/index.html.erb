@@ -10,4 +10,19 @@
     <%= link_to 'Join',recruitment.room_url,class: "recruitment__invite-url" %>
     <%= link_to 'Edit',edit_recruitment_path(recruitment) %>
   </div>
+  <%= form_with(model:[recruitment,recruitment.recruitment_comments.build],local: true) do |form| %>
+    <p>
+      <%= form.label :text,"Comment" %>
+      <%= form.text_area :text, required: true %>
+    </p>
+
+    <p>
+      <%= form.label :password,"Comment Password" %>
+      <%= form.password_field :password,required: true %>
+    </p>
+
+    <p>
+      <%= form.submit "Comment" %>
+    </p>
+  <% end %>
 <% end %>
