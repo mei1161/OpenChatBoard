@@ -114,6 +114,28 @@ feature 'Recruitments' , js: true do
     fill_in 'Password for deletion',with: password
     click_on 'Delete'
 
-    page.has_no_css?('.recruitment__openchat-name')
+    expect(page).to have_no_css('.recruitment__openchat-name')
   end
+
+  # Recruitment_Comment test
+
+  scenario 'CommentTest' do
+    openchat_name = "test"
+    invite_url = "https://line.me/ti/g2/EUz"
+    description = "aaaa"
+    password = "123"
+
+    before_destroy = recruit(
+      openchat_name:openchat_name,
+      invite_url:invite_url,
+      description:description,
+      password:password)
+
+    page.save_screenshot("EditRecruitment-#{DateTime.now}.png")
+    within(before_destroy) do
+      expect(page).to have_css('.recruitment__openchat-name',text: openchat_name)
+      expect(page).to have_css('.recruitment__description',text: description)
+    end
+
+
 end
