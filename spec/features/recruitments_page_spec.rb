@@ -190,18 +190,25 @@ feature 'Recruitments' , js: true do
     invite_url = "https://line.me/ti/g2/EUz"
     description = "aaaa"
     password = "123"
+    comment = "this is a pen"
 
-    before_destroy = recruit(
+    before_comment = recruit(
       openchat_name:openchat_name,
       invite_url:invite_url,
       description:description,
       password:password)
 
-    page.save_screenshot("EditRecruitment-#{DateTime.now}.png")
-    within(before_destroy) do
-      expect(page).to have_css('.recruitment__openchat-name',text: openchat_name)
-      expect(page).to have_css('.recruitment__description',text: description)
+    page.save_screenshot("BeforeComment-#{DateTime.now}.png")
+
+    within( before_comment ) do
+      fill_in 'Comment',with: comment 
+      fill_in 'Comment Password',with: '123'
+      click_on 'Comment'
     end
 
-
+    with_in(before_comment) do
+      expect(page).to have_css('comment',text: comment) 
+    end
+    
+  end
 end
