@@ -7,18 +7,24 @@
   <div class="recruitment">
     <h2 class="recruitment__openchat-name"><%= recruitment.room_name %></h2>
     <div class="recruitment__description"><%= recruitment.description %></div>
-    <%= link_to 'Join',recruitment.room_url,class: "recruitment__invite-url" %>
-    <%= link_to 'Edit',edit_recruitment_path(recruitment) %>
+    <%= link_to 'Join', recruitment.room_url,class: "recruitment__invite-url" %>
+    <%= link_to 'Edit', edit_recruitment_path(recruitment) %>
+    <% recruitment.recruitment_comments.each do |comment| %>
+      <div class="recruitment__comment">
+        <strong>Comment</strong>
+        <%= comment.text %>
+      </div>
+    <% end %>
   </div>
-  <%= form_with(model:[recruitment,recruitment.recruitment_comments.build],local: true) do |form| %>
+  <%= form_with model:[recruitment,recruitment.recruitment_comments.build], local: true do |form| %>
     <p>
-      <%= form.label :text,"Comment" %>
+      <%= form.label :text, "Comment" %>
       <%= form.text_area :text, required: true %>
     </p>
 
     <p>
-      <%= form.label :password,"Comment Password" %>
-      <%= form.password_field :password,required: true %>
+      <%= form.label :password, "Comment Password" %>
+      <%= form.password_field :password, required: true %>
     </p>
 
     <p>

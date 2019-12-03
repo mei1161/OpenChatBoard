@@ -202,12 +202,12 @@ feature 'Recruitments' , js: true do
 
     within( before_comment ) do
       fill_in 'Comment',with: comment 
-      fill_in 'Comment Password',with: '123'
+      fill_in 'Comment Password',with: password
       click_on 'Comment'
     end
 
     with_in(before_comment) do
-      expect(page).to have_css('comment',text: comment) 
+      expect(page).to have_css('.recruitment__comment',text: comment) 
     end
     
   end
