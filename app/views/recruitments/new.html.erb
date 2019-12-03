@@ -1,22 +1,22 @@
 <h1>New Recruitment</h1>
 <%= form_with model: @recruitment, local: true do |form| %>
   <p>
-    <%= form.label :room_name,"OpenChat name"%>
-    <%= form.text_field :room_name,required: true %>
+    <%= form.label :room_name, "OpenChat name"%>
+    <%= form.text_field :room_name, required: true %>
   </p>
 
   <p>
-    <%= form.label :room_url,"Invite URL" %>
+    <%= form.label :room_url, "Invite URL" %>
     <%= form.text_field :room_url %>
   </p>
 
   <p>
-    <%= form.label :description,"Description" %>
+    <%= form.label :description, "Description" %>
     <%= form.text_area :description %>
   </p>
 
   <p>
-    <%= form.label :password,"Password" %>
+    <%= form.label :password, "Password" %>
     <%= form.password_field :password, required: true%>
   </p>
 
@@ -24,5 +24,5 @@
     <%= form.submit "Recruit" %>
   </p>
 
-  <p><%= link_to 'Back',recruitments_path %></p>
+  <p><%= link_to 'Back', recruitments_path %></p>
 <% end %>
