@@ -237,14 +237,13 @@ feature 'Recruitments' , js: true do
 
     within(before_comment) do
       expect(page).to have_css('.recruitment__comment',text: comment) 
+      click_on 'Edit'
     end
 
-    within(before_comment) do
-      fill_in 'Password fom deletion' with: password
+      fill_in 'Password for deletion', with: password
       click_on 'Delete'
-    end
 
-    except(page).to have_no_css('.recruitment__comment')
+    expect(page).to have_no_css('.recruitment__comment')
     
   end
 
