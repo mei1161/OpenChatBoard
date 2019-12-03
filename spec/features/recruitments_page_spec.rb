@@ -87,6 +87,39 @@ feature 'Recruitments' , js: true do
     end
   end
 
+
+  #Edit with Wrong Password test
+
+  scenario 'Edit_with_wrong_password' do
+    openchat_name = "testchat2"
+    invite_url = "https://line.me/ti/g2/EUz"
+    description = "aaaa"
+    correct_password = "123"
+    wrong_password = "345"
+
+    before_edit = recruit(
+      openchat_name:openchat_name,
+      invite_url:invite_url,
+      description:description,
+      password:correct_password)
+
+    page.save_screenshot("EditRecruitment-#{DateTime.now}.png")
+    within(before_edit) do
+      expect(page).to have_css('.recruitment__openchat-name',text: openchat_name)
+      expect(page).to have_css('.recruitment__description',text: description)
+    end
+
+    within(before_edit) do
+      click_on 'Edit'
+    end
+
+    fill_in 'Description',with: "aa"
+    fill_in 'Password',with: wrong_password 
+    click_on 'Edit'
+
+    expect(page).to have_text("Password invalid")
+  end
+
   #destroy-test
 
   scenario 'DestroyRecruitment' do
@@ -115,6 +148,38 @@ feature 'Recruitments' , js: true do
     click_on 'Delete'
 
     expect(page).to have_no_css('.recruitment__openchat-name')
+  end
+
+  #destroy with wrong password
+
+  scenario 'Destroy_with_wrong_password' do
+    openchat_name = "testchat2"
+    invite_url = "https://line.me/ti/g2/EUz"
+    description = "aaaa"
+    correct_password = "123"
+    wrong_password = "345"
+
+    before_edit = recruit(
+      openchat_name:openchat_name,
+      invite_url:invite_url,
+      description:description,
+      password:correct_password)
+
+    page.save_screenshot("EditRecruitment-#{DateTime.now}.png")
+    within(before_edit) do
+      expect(page).to have_css('.recruitment__openchat-name',text: openchat_name)
+      expect(page).to have_css('.recruitment__description',text: description)
+    end
+
+    within(before_edit) do
+      click_on 'Edit'
+    end
+
+    fill_in 'Description',with: "aa"
+    fill_in 'Password',with: wrong_password 
+    click_on 'Delete'
+
+    expect(page).to have_text("Password invalid")
   end
 
   # Recruitment_Comment test
