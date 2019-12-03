@@ -211,4 +211,41 @@ feature 'Recruitments' , js: true do
     end
     
   end
+
+  # Delete related comments by deleting recruitment 
+
+  scenario 'Relation Test' do
+    openchat_name = "test"
+    invite_url = "https://line.me/ti/g2/EUz"
+    description = "aaaa"
+    password = "123"
+    comment = "this is a pen"
+
+    before_comment = recruit(
+      openchat_name:openchat_name,
+      invite_url:invite_url,
+      description:description,
+      password:password)
+
+
+
+      fill_in 'Comment',with: comment 
+      fill_in 'Comment Password',with: password
+      click_on 'Comment'
+
+    page.save_screenshot("AfterComment-#{DateTime.now}.png")
+
+    within(before_comment) do
+      expect(page).to have_css('.recruitment__comment',text: comment) 
+    end
+
+    within(before_comment) do
+      fill_in 'Password fom deletion' with: password
+      click_on 'Delete'
+    end
+
+    except(page).to have_no_css('.recruitment__comment')
+    
+  end
+
 end

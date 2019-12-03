@@ -1,5 +1,5 @@
 class Recruitment < ApplicationRecord
-  has_many :recruitment_comments
+  has_many :recruitment_comments,dependent: :destroy
   has_secure_password
   validates :room_name,presence: true
   validate :check_url
