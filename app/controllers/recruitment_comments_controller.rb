@@ -19,7 +19,7 @@ class RecruitmentCommentsController < ApplicationController
 
   private
    def reply_comment_params
-     params.require(:recruitment_comment).permit(:text,:password, :reply_to)
+     params.require(:recruitment_comment).permit(:text, :password, :reply_to)
    end
    def comment_params
      params.require(:recruitment_comment).permit(:text,:password)

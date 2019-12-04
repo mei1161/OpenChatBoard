@@ -71,7 +71,7 @@ feature 'Recruitments' , js: true do
   #
   def find_reply(recruitment:, comment:, text:)
     within comment do
-      reply_text = ('.comment__reply',text: text)
+      reply_text = find('.recruitment__comment--reply',text:text)
       return reply_text.find(xpath: "..")
     end
   end
