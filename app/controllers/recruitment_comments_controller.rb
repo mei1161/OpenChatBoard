@@ -2,13 +2,10 @@ class RecruitmentCommentsController < ApplicationController
   def create
     @recruitment = Recruitment.find(params[:recruitment_id])
 
-      pp '===================='
-      pp @recruitment_comment
-      pp '===================='
-    if params[:reply_to]
-      # parent = @recruitment.recruitment_comments.find(params[:reply_to])
-      @recruitment_comment = @recruitment.recruitment_comments.new(comment_params)
-      @recruitment_comment.parent_id = params[:reply_to]
+    if reply_comment_params[:reply_to]
+      parent = @recruitment.recruitment_comments.find(reply_comment_params[:reply_to])
+      @recruitment_comment = parent.children.new(comment_params)
+      @recruitment_comment.recruitment_id = params[:recruitment_id]
     else
       @recruitment_comment = @recruitment.recruitment_comments.new(comment_params)
     end
@@ -21,6 +18,9 @@ class RecruitmentCommentsController < ApplicationController
   end
 
   private
+   def reply_comment_params
+     params.require(:recruitment_comment).permit(:text,:password, :reply_to)
+   end
    def comment_params
      params.require(:recruitment_comment).permit(:text,:password)
    end
