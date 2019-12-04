@@ -14,10 +14,17 @@
     <% recruitment.recruitment_comments.each do |comment| %>
       <div class="recruitment__comment">
         <h3 id="comment-<%= comment[:id] %>">Comment</h3>
-        <%= comment.text %>
+        <% unless comment.has_parent? %>
+          <%= comment.text %>
+        <% end %>
+
         <%= link_to 'Reply', "#{recruitments_path}?reply_to=#{comment[:id]}#comment-#{comment[:id]}" %>
         <% if comment[:id] == request.query_parameters[:reply_to].to_i %>
           <%= form_with model:[recruitment,recruitment.recruitment_comments.new], local: true do |form| %>
+            <p>
+              <%= form.label :to, "To" %> 
+              <%= form.text_field :reply_to, value: comment[:id] %>
+            </p>
             <p> 
               <%= form.label :text, "Reply" %> 
               <%= form.text_area :text, required: true %>
