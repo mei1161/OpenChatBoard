@@ -70,10 +70,7 @@ feature 'Recruitments' , js: true do
     find_comment_with_parent parent: target, comment: text
   end
 
-  #
-  # Show-recruitment
-  #
-  scenario 'ShowRecruitments' do
+  scenario 'Show recruitment lists' do
     openchat_name ="testchat"
     invite_url = "https://line.me/ti/g2/EUz"
     description = "aa"
@@ -94,10 +91,7 @@ feature 'Recruitments' , js: true do
     expect(page).to have_title "LINE OPENCHAT"
   end
 
-  #
-  # Edit-recruitment with correct_password
-  #
-  scenario 'EditRecruitment' do
+  scenario 'Edit-recruitment with correct_password' do
     openchat_name = "testchat2"
     invite_url = "https://line.me/ti/g2/EUz"
     description = "aaaa"
@@ -126,10 +120,7 @@ feature 'Recruitments' , js: true do
     end
   end
 
-  #
-  # Edit with Wrong Password test
-  #
-  scenario 'Edit_with_wrong_password' do
+  scenario 'Edit with Wrong Password' do
     openchat_name = "testchat2"
     invite_url = "https://line.me/ti/g2/EUz"
     description = "aaaa"
@@ -153,10 +144,7 @@ feature 'Recruitments' , js: true do
     expect(page).to have_text("Password invalid")
   end
 
-  #
-  # destroy-test
-  #
-  scenario 'DestroyRecruitment' do
+  scenario 'Destroy a recruitment' do
     openchat_name = "testchat2"
     invite_url = "https://line.me/ti/g2/EUz"
     description = "aaaa"
@@ -178,10 +166,7 @@ feature 'Recruitments' , js: true do
     expect(page).to have_no_css('.recruitment__openchat-name')
   end
 
-  #
-  # destroy with wrong password
-  #
-  scenario 'Destroy_with_wrong_password' do
+  scenario 'Destroy with wrong password' do
     openchat_name = "testchat2"
     invite_url = "https://line.me/ti/g2/EUz"
     description = "aaaa"
@@ -205,10 +190,7 @@ feature 'Recruitments' , js: true do
     expect(page).to have_text("Password invalid")
   end
 
-  # 
-  # Recruitment_Comment test
-  #
-  scenario 'CommentTest' do
+  scenario 'Recruitment_Comment test' do
     openchat_name = "test"
     invite_url = "https://line.me/ti/g2/EUz"
     description = "aaaa"
@@ -225,13 +207,9 @@ feature 'Recruitments' , js: true do
       comment_on comment: comment, password: password
       expect(page).to have_css('.recruitment__comment', text: comment) 
     end
-
   end
 
-  #
-  # Delete related comments by deleting recruitment 
-  #
-  scenario 'Relation Test' do
+  scenario 'Delete related comments by deleting recruitment' do
     openchat_name = "test"
     invite_url = "https://line.me/ti/g2/EUz"
     description = "aaaa"
@@ -255,10 +233,7 @@ feature 'Recruitments' , js: true do
     expect(page).to have_no_css('.recruitment__comment')
   end
 
-  #
-  # Test reply to comment 
-  #
-  scenario 'ReplyTest' do
+  scenario 'Test reply to comment' do
     openchat_name = "test"
     invite_url = "https://line.me/ti/g2/EUz"
     description = "aaaa"
