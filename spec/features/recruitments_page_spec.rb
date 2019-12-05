@@ -1,58 +1,58 @@
 require 'rails_helper'
 
 feature 'Recruitments' , js: true do
-
   # 
   # Create a new recruitment and return a new recruitment
   #
   def recruit(openchat_name:, invite_url:, description:,password:)
     visit '/recruitments'
     click_on 'Create Recruitment'
-    fill_in 'OpenChat name',with: openchat_name
-    fill_in 'Invite URL',with: invite_url
-    fill_in 'Description',with: description
-    fill_in 'Password',with: password
+    fill_in 'OpenChat name', with: openchat_name
+    fill_in 'Invite URL', with: invite_url
+    fill_in 'Description', with: description
+    fill_in 'Password', with: password
     click_on 'Recruit'
 
-    return find_recruitment(openchat_name:openchat_name)
+    return find_recruitment openchat_name: openchat_name
   end
 
   #
   # Look for a recruitment for a specified open chat name.
   # 
   def find_recruitment(openchat_name:)
-    name = find('.recruitment__openchat-name',text: openchat_name)
+    name = find('.recruitment__openchat-name', text: openchat_name)
     return name.find(:xpath,"..")
   end
-
 
   # 
   # Create a comment for the specified recruitment and return the comment
   #
   def comment_on(recruitment:, comment:, password:)
     within recruitment do
-      fill_in 'Comment',with: comment 
-      fill_in 'Comment Password',with: password
+      fill_in 'Comment', with: comment 
+      fill_in 'Comment Password', with: password
       click_on 'Comment'
     end
 
-    return find_comment(recruitment:recruitment, comment:comment)
+    return find_comment recruitment: recruitment, comment: comment
   end
   
-
   # 
   # Search comments for the specified text in the recruitment
   #
   def find_comment(recruitment:, comment:)
     within recruitment do
-      comment_text = find('.recruitment__comment',text: comment)
+      comment_text = find('.recruitment__comment', text: comment)
       return comment_text.find(:xpath,"..")
     end
   end
 
-  def find_comment_with_parent( parent:, comment:)
+  #
+  # Find a reply for a specified comment 
+  #
+  def find_comment_with_parent(parent:, comment:)
     within parent do
-      comment_text = find('.recruitment__comment--reply',text: comment)
+      comment_text = find('.recruitment__comment--reply', text: comment)
       return comment_text.find(:xpath,"..")
     end
   end
@@ -70,10 +70,8 @@ feature 'Recruitments' , js: true do
       end
     end
     
-    find_comment_with_parent(parent:target, comment: text)
+    find_comment_with_parent parent: target, comment: text
   end
-
-
 
   #
   # Show-recruitment
@@ -84,18 +82,18 @@ feature 'Recruitments' , js: true do
     description = "aa"
     password = "abcde"
 
-    result = recruit(
-      openchat_name:openchat_name,
-      invite_url:invite_url,
-      description:description,
-      password:password)
+    result = 
+      recruit openchat_name: openchat_name,
+        invite_url: invite_url,
+        description: description,
+        password: password
 
     visit '/recruitments'
     page.save_screenshot("ShowRecruitments-#{DateTime.now}.png")
 
     within result do
-      expect(page).to have_css('.recruitment__openchat-name',text: openchat_name)
-      expect(page).to have_css('.recruitment__description',text: description)
+      expect(page).to have_css('.recruitment__openchat-name', text: openchat_name)
+      expect(page).to have_css('.recruitment__description', text: description)
     end
     
     within result do
@@ -116,33 +114,33 @@ feature 'Recruitments' , js: true do
     description = "aaaa"
     password = "123"
 
-    before_edit = recruit(
-      openchat_name:openchat_name,
-      invite_url:invite_url,
-      description:description,
-      password:password)
+    recruitment_before_edit = 
+      recruit openchat_name: openchat_name,
+        invite_url: invite_url,
+        description: description,
+        password: password
 
     page.save_screenshot("EditRecruitment-#{DateTime.now}.png")
-    within before_edit do
-      expect(page).to have_css('.recruitment__openchat-name',text: openchat_name)
-      expect(page).to have_css('.recruitment__description',text: description)
+    within recruitment_before_edit do
+      expect(page).to have_css('.recruitment__openchat-name', text: openchat_name)
+      expect(page).to have_css('.recruitment__description', text: description)
     end
 
-    within before_edit do
+    within recruitment_before_edit do
       click_on 'Edit'
     end
 
-    fill_in 'Description',with: "aa"
-    fill_in 'Password',with: password
+    fill_in 'Description', with: "aa"
+    fill_in 'Password', with: password
     click_on 'Edit'
 
+    recruitment_after_edit = 
+      find_recruitment openchat_name: openchat_name
 
-    edit_after = find_recruitment(openchat_name:openchat_name)
-
-    within edit_after do
+    within recruitment_after_edit do
       page.save_screenshot("Edit_After-#{DateTime.now}.png")
-      expect(page).to have_css('.recruitment__openchat-name',text: openchat_name)
-      expect(page).to have_css('.recruitment__description',text: "aa")
+      expect(page).to have_css('.recruitment__openchat-name', text: openchat_name)
+      expect(page).to have_css('.recruitment__description', text: "aa")
     end
   end
 
@@ -157,24 +155,24 @@ feature 'Recruitments' , js: true do
     correct_password = "123"
     wrong_password = "345"
 
-    before_edit = recruit(
-      openchat_name:openchat_name,
-      invite_url:invite_url,
-      description:description,
-      password:correct_password)
+    recruitment_before_edit = 
+      recruit openchat_name: openchat_name,
+        invite_url: invite_url,
+        description: description,
+        password: correct_password
 
     page.save_screenshot("EditRecruitment-#{DateTime.now}.png")
-    within before_edit do
-      expect(page).to have_css('.recruitment__openchat-name',text: openchat_name)
-      expect(page).to have_css('.recruitment__description',text: description)
+    within recruitment_before_edit do
+      expect(page).to have_css('.recruitment__openchat-name', text: openchat_name)
+      expect(page).to have_css('.recruitment__description', text: description)
     end
 
-    within before_edit do
+    within recruitment_before_edit do
       click_on 'Edit'
     end
 
     fill_in 'Description',with: "aa"
-    fill_in 'Password',with: wrong_password 
+    fill_in 'Password', with: wrong_password 
     click_on 'Edit'
 
     expect(page).to have_text("Password invalid")
@@ -189,23 +187,23 @@ feature 'Recruitments' , js: true do
     description = "aaaa"
     password = "123"
 
-    before_destroy = recruit(
-      openchat_name:openchat_name,
-      invite_url:invite_url,
-      description:description,
-      password:password)
+    recruitment_before_destroy = 
+      recruit openchat_name: openchat_name,
+        invite_url: invite_url,
+        description: description,
+        password: password
 
     page.save_screenshot("EditRecruitment-#{DateTime.now}.png")
-    within before_destroy do
-      expect(page).to have_css('.recruitment__openchat-name',text: openchat_name)
-      expect(page).to have_css('.recruitment__description',text: description)
+    within recruitment_before_destroy do
+      expect(page).to have_css('.recruitment__openchat-name', text: openchat_name)
+      expect(page).to have_css('.recruitment__description', text: description)
     end
 
-    within before_destroy do
+    within recruitment_before_destroy do
       click_on 'Edit'
     end
 
-    fill_in 'Password for deletion',with: password
+    fill_in 'Password for deletion', with: password
     click_on 'Delete'
 
     expect(page).to have_no_css('.recruitment__openchat-name')
@@ -221,24 +219,24 @@ feature 'Recruitments' , js: true do
     correct_password = "123"
     wrong_password = "345"
 
-    before_edit = recruit(
-      openchat_name:openchat_name,
-      invite_url:invite_url,
-      description:description,
-      password:correct_password)
+    recruitment_before_edit = 
+      recruit openchat_name: openchat_name,
+      invite_url: invite_url,
+      description: description,
+      password: correct_password
 
     page.save_screenshot("EditRecruitment-#{DateTime.now}.png")
-    within(before_edit) do
-      expect(page).to have_css('.recruitment__openchat-name',text: openchat_name)
-      expect(page).to have_css('.recruitment__description',text: description)
+    within recruitment_before_edit do
+      expect(page).to have_css('.recruitment__openchat-name', text: openchat_name)
+      expect(page).to have_css('.recruitment__description', text: description)
     end
 
-    within before_edit do
+    within recruitment_before_edit do
       click_on 'Edit'
     end
 
-    fill_in 'Description',with: "aa"
-    fill_in 'Password',with: wrong_password 
+    fill_in 'Description', with: "aa"
+    fill_in 'Password', with: wrong_password 
     click_on 'Delete'
 
     expect(page).to have_text("Password invalid")
@@ -255,23 +253,23 @@ feature 'Recruitments' , js: true do
     password = "123"
     comment = "this is a pen"
 
-    before_comment = recruit(
-      openchat_name:openchat_name,
-      invite_url:invite_url,
-      description:description,
-      password:password)
+    recruitment_before_comment = 
+      recruit openchat_name: openchat_name,
+        invite_url: invite_url,
+        description: description,
+        password: password
 
     page.save_screenshot("BeforeComment-#{DateTime.now}.png")
 
-    after_comment = find_recruitment(openchat_name:openchat_name)
+    recruitment_after_comment = 
+      find_recruitment openchat_name: openchat_name
 
-    comment_on(
-      recruitment:before_comment,
-      comment:comment,
-      password:password)
+    comment_on recruitment: recruitment_before_comment,
+      comment: comment,
+      password: password
 
-    within before_comment do
-      expect(page).to have_css('.recruitment__comment',text: comment ) 
+    within recruitment_before_comment do
+      expect(page).to have_css('.recruitment__comment', text: comment) 
     end
 
   end
@@ -286,21 +284,20 @@ feature 'Recruitments' , js: true do
     password = "123"
     comment = "this is a pen"
 
-    before_comment = recruit(
-      openchat_name:openchat_name,
-      invite_url:invite_url,
-      description:description,
-      password:password)
+    recruitment_before_comment =
+      recruit openchat_name: openchat_name,
+        invite_url: invite_url,
+        description: description,
+        password: password
 
-    comment_on(
-      recruitment:before_comment,
-      comment:comment,
-      password:password)
+    comment_on recruitment: recruitment_before_comment,
+      comment: comment,
+      password: password
 
     page.save_screenshot("AfterComment-#{DateTime.now}.png")
 
-    within before_comment do
-      expect(page).to have_css('.recruitment__comment',text: comment) 
+    within recruitment_before_comment do
+      expect(page).to have_css('.recruitment__comment', text: comment) 
       click_on 'Edit'
     end
 
@@ -322,27 +319,28 @@ feature 'Recruitments' , js: true do
     comment = "this is a pen"
     reply = "HelloWorld"
 
-    before_comment = recruit(
-      openchat_name:openchat_name,
-      invite_url:invite_url,
-      description:description,
-      password:password)
+    recruitment_before_comment =
+      recruit openchat_name: openchat_name,
+        invite_url: invite_url,
+        description: description,
+        password: password
 
     page.save_screenshot("BeforeComment-#{DateTime.now}.png")
 
-
-    target_comment = comment_on(
-      recruitment:before_comment,
-      comment:comment,
-      password:password)
-
+    target_comment = 
+      comment_on recruitment: recruitment_before_comment,
+        comment: comment,
+        password: password
 
     page.save_screenshot("Comment-#{DateTime.now}.png")
-    target_reply = reply_to(openchat_name:openchat_name, target:target_comment, text:reply, password:password)
+    target_reply = 
+      reply_to openchat_name: openchat_name,
+        target: target_comment, 
+        text: reply, 
+        password: password
 
     within target_reply do
-      expect(page).to have_css('.recruitment__comment .recruitment__comment--reply',text: reply)
+      expect(page).to have_css('.recruitment__comment .recruitment__comment--reply', text: reply)
     end
-
   end
 end
