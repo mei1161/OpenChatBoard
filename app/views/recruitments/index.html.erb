@@ -12,7 +12,8 @@
     <%= link_to 'Join', recruitment.room_url,class: "recruitment__invite-url" %>
     <%= link_to 'Edit', edit_recruitment_path(recruitment) %>
 
-    <% def print_reply_form(model:, reply_to:) %>
+    <% def print_reply_form(model:, reply_to:, comment:) %>
+      <% if comment[:id] == request.query_parameters[:reply_to].to_i %>
         <%= form_with model:model, local: true do |form| %>
           <p>
             <%= form.label :to, "To" %> 
@@ -32,35 +33,29 @@
             <%= form.submit "Reply" %>
           </p>
         <% end %>
+      <% end %>
+    <% end %>
+
+    <% def print_comment(recruitment:, comment:) %>
+      <div class="recruitment__comment <%= 'recruitment__comment--reply' if comment.has_parent? %>">
+        <h3 id="comment-<%= comment[:id] %>">Comment</h3>
+        <%= comment.text %>
+        <%= link_to 'Reply', "#{recruitments_path}?reply_to=#{comment[:id]}#comment-#{comment[:id]}" %>
+        <% print_reply_form(model: [recruitment,recruitment.recruitment_comments.new], reply_to: comment[:id],comment: comment) %>
+        <ul>
+          <% comment.children.each do |child| %> 
+            <li>
+              <% print_comment recruitment: recruitment, comment: child %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
     <% end %>
 
     <ul>
       <% recruitment.recruitment_comments.select {|c|!c.has_parent?} .each do |comment| %>
         <li>
-          <div class="recruitment__comment">
-            <h3 id="comment-<%= comment[:id] %>">Comment</h3>
-
-            <%= comment.text %>
-            <%= link_to 'Reply', "#{recruitments_path}?reply_to=#{comment[:id]}#comment-#{comment[:id]}" %>
-            <% if comment[:id] == request.query_parameters[:reply_to].to_i %>
-              <% print_reply_form(model:[recruitment,recruitment.recruitment_comments.new], reply_to:comment[:id]) %>
-            <% end %>
-            <ul>
-              <% comment.children.each do |child| %>
-                <li>
-                  <div class="recruitment__comment recruitment__comment--reply">
-                    <h3 id="comment-<%= child[:id] %>">Comment</h3>
-                    <%= child.text %>
-                    <%= link_to 'Reply', "#{recruitments_path}?reply_to=#{child[:id]}#comment-#{child[:id]}" %>
-
-                    <% if child[:id] == request.query_parameters[:reply_to].to_i %>
-                      <% print_reply_form(model:[recruitment,recruitment.recruitment_comments.new], reply_to:child[:id]) %>
-                    <% end %>
-                  </div>
-                </li>
-              <% end %>
-            </ul>
-          </div>
+          <% print_comment recruitment: recruitment, comment: comment  %>
         </li>
       <% end %>
       <% unless request.query_parameters[:reply_to] %>

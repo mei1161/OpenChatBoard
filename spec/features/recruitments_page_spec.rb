@@ -233,7 +233,7 @@ feature 'Recruitments' , js: true do
     expect(page).to have_no_css('.recruitment__comment')
   end
 
-  scenario 'Test reply to comment' do
+  scenario 'Reply to comment' do
     openchat_name = "test"
     invite_url = "https://line.me/ti/g2/EUz"
     description = "aaaa"
@@ -256,6 +256,38 @@ feature 'Recruitments' , js: true do
 
       within target_reply do
         expect(page).to have_css('.recruitment__comment--reply', text: reply)
+      end
+    end
+  end
+
+  scenario 'Reply to reply' do
+    openchat_name = "test"
+    invite_url = "https://line.me/ti/g2/EUz"
+    description = "aaaa"
+    password = "123"
+    comment = "[level 1] this is a comment"
+    reply_level2 = "[level 2] this is a reply to comment"
+    reply_level3 = "[level 3] this is a reply to reply"
+
+    recruitment_before_comment =
+      recruit openchat_name: openchat_name,
+        invite_url: invite_url,
+        description: description,
+        password: password
+
+    within recruitment_before_comment do
+      target_comment = comment_on comment: comment, password: password
+      target_reply = 
+        reply_to target: target_comment, 
+          text: reply_level2,
+          password: password
+
+      within target_reply do
+        reply_to target: target_reply,
+          text: reply_level3,
+          password: password
+
+        expect(page).to have_css('.recruitment__comment--reply', text: reply_level3)
       end
     end
   end
