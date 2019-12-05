@@ -56,7 +56,7 @@ feature 'Recruitments' , js: true do
   # 
   # Reply to the specified recruitment comment and return the reply 
   #
-  def reply_to(openchat_name:, target:, text:, password:) 
+  def reply_to(target:, text:, password:) 
     within target do
       click_on 'Reply'
 
@@ -296,13 +296,12 @@ feature 'Recruitments' , js: true do
     within recruitment_before_comment do
       target_comment = comment_on comment: comment, password: password
       target_reply = 
-        reply_to openchat_name: openchat_name,
-        target: target_comment, 
-        text: reply, 
-        password: password
+        reply_to target: target_comment, 
+          text: reply, 
+          password: password
 
       within target_reply do
-        expect(page).to have_css('.recruitment__comment .recruitment__comment--reply', text: reply)
+        expect(page).to have_css('.recruitment__comment--reply', text: reply)
       end
     end
 
