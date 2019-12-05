@@ -12,7 +12,7 @@ feature 'Recruitments' , js: true do
   # 
   # Create a new recruitment and return a new recruitment
   #
-  def recruit(openchat_name:, invite_url:, description:,password:)
+  def recruit(openchat_name:, invite_url:, description: ,password:)
     visit '/recruitments'
     click_on 'Create Recruitment'
     fill_in 'OpenChat name', with: openchat_name
@@ -27,24 +27,20 @@ feature 'Recruitments' , js: true do
   # 
   # Search comments for the specified text in the recruitment
   #
-  def find_comment(recruitment:, comment:)
-    within recruitment do
-      comment_text = find('.recruitment__comment', text: comment)
-      return comment_text.find(:xpath,"..")
-    end
+  def find_comment(comment:)
+    comment_text = find('.recruitment__comment', text: comment)
+    return comment_text.find(:xpath,"..")
   end
 
   # 
   # Create a comment for the specified recruitment and return the comment
   #
-  def comment_on(recruitment:, comment:, password:)
-    within recruitment do
-      fill_in 'Comment', with: comment 
-      fill_in 'Comment Password', with: password
-      click_on 'Comment'
-    end
+  def comment_on(comment:, password:)
+    fill_in 'Comment', with: comment 
+    fill_in 'Comment Password', with: password
+    click_on 'Comment'
 
-    return find_comment recruitment: recruitment, comment: comment
+    return find_comment comment: comment
   end
   
   #
@@ -92,11 +88,6 @@ feature 'Recruitments' , js: true do
     visit '/recruitments'
     page.save_screenshot("ShowRecruitments-#{DateTime.now}.png")
 
-    within result do
-      expect(page).to have_css('.recruitment__openchat-name', text: openchat_name)
-      expect(page).to have_css('.recruitment__description', text: description)
-    end
-    
     within result do
       click_on 'Join'
     end
@@ -246,11 +237,8 @@ feature 'Recruitments' , js: true do
 
     page.save_screenshot("BeforeComment-#{DateTime.now}.png")
 
-    comment_on recruitment: recruitment_before_comment,
-      comment: comment,
-      password: password
-
     within recruitment_before_comment do
+      comment_on comment: comment, password: password
       expect(page).to have_css('.recruitment__comment', text: comment) 
     end
 
@@ -272,13 +260,10 @@ feature 'Recruitments' , js: true do
         description: description,
         password: password
 
-    comment_on recruitment: recruitment_before_comment,
-      comment: comment,
-      password: password
-
     page.save_screenshot("AfterComment-#{DateTime.now}.png")
 
     within recruitment_before_comment do
+      comment_on comment: comment, password: password
       click_on 'Edit'
     end
 
@@ -308,20 +293,18 @@ feature 'Recruitments' , js: true do
 
     page.save_screenshot("BeforeComment-#{DateTime.now}.png")
 
-    target_comment = 
-      comment_on recruitment: recruitment_before_comment,
-        comment: comment,
-        password: password
-
-    page.save_screenshot("Comment-#{DateTime.now}.png")
-    target_reply = 
-      reply_to openchat_name: openchat_name,
+    within recruitment_before_comment do
+      target_comment = comment_on comment: comment, password: password
+      target_reply = 
+        reply_to openchat_name: openchat_name,
         target: target_comment, 
         text: reply, 
         password: password
 
-    within target_reply do
-      expect(page).to have_css('.recruitment__comment .recruitment__comment--reply', text: reply)
+      within target_reply do
+        expect(page).to have_css('.recruitment__comment .recruitment__comment--reply', text: reply)
+      end
     end
+
   end
 end
