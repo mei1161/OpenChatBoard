@@ -86,20 +86,17 @@ feature 'Recruitments' , js: true do
         password: password
 
     visit '/recruitments'
-    page.save_screenshot("ShowRecruitments-#{DateTime.now}.png")
-
+    
     within result do
       click_on 'Join'
     end
 
     expect(page).to have_title "LINE OPENCHAT"
-    page.save_screenshot("ShowRecruitments_Clicked_join-#{DateTime.now}.png")
   end
 
   #
   # Edit-recruitment with correct_password
   #
-
   scenario 'EditRecruitment' do
     openchat_name = "testchat2"
     invite_url = "https://line.me/ti/g2/EUz"
@@ -111,8 +108,6 @@ feature 'Recruitments' , js: true do
         invite_url: invite_url,
         description: description,
         password: password
-
-    page.save_screenshot("EditRecruitment-#{DateTime.now}.png")
 
     within recruitment_before_edit do
       click_on 'Edit'
@@ -126,12 +121,10 @@ feature 'Recruitments' , js: true do
       find_recruitment openchat_name: openchat_name
 
     within recruitment_after_edit do
-      page.save_screenshot("Edit_After-#{DateTime.now}.png")
       expect(page).to have_css('.recruitment__openchat-name', text: openchat_name)
       expect(page).to have_css('.recruitment__description', text: "aa")
     end
   end
-
 
   #
   # Edit with Wrong Password test
@@ -148,8 +141,6 @@ feature 'Recruitments' , js: true do
         invite_url: invite_url,
         description: description,
         password: correct_password
-
-    page.save_screenshot("EditRecruitment-#{DateTime.now}.png")
 
     within recruitment_before_edit do
       click_on 'Edit'
@@ -177,8 +168,6 @@ feature 'Recruitments' , js: true do
         description: description,
         password: password
 
-    page.save_screenshot("EditRecruitment-#{DateTime.now}.png")
-
     within recruitment_before_destroy do
       click_on 'Edit'
     end
@@ -205,8 +194,6 @@ feature 'Recruitments' , js: true do
       description: description,
       password: correct_password
 
-    page.save_screenshot("EditRecruitment-#{DateTime.now}.png")
-
     within recruitment_before_edit do
       click_on 'Edit'
     end
@@ -221,7 +208,6 @@ feature 'Recruitments' , js: true do
   # 
   # Recruitment_Comment test
   #
-
   scenario 'CommentTest' do
     openchat_name = "test"
     invite_url = "https://line.me/ti/g2/EUz"
@@ -234,8 +220,6 @@ feature 'Recruitments' , js: true do
         invite_url: invite_url,
         description: description,
         password: password
-
-    page.save_screenshot("BeforeComment-#{DateTime.now}.png")
 
     within recruitment_before_comment do
       comment_on comment: comment, password: password
@@ -260,8 +244,6 @@ feature 'Recruitments' , js: true do
         description: description,
         password: password
 
-    page.save_screenshot("AfterComment-#{DateTime.now}.png")
-
     within recruitment_before_comment do
       comment_on comment: comment, password: password
       click_on 'Edit'
@@ -272,7 +254,6 @@ feature 'Recruitments' , js: true do
 
     expect(page).to have_no_css('.recruitment__comment')
   end
-
 
   #
   # Test reply to comment 
@@ -291,8 +272,6 @@ feature 'Recruitments' , js: true do
         description: description,
         password: password
 
-    page.save_screenshot("BeforeComment-#{DateTime.now}.png")
-
     within recruitment_before_comment do
       target_comment = comment_on comment: comment, password: password
       target_reply = 
@@ -304,6 +283,5 @@ feature 'Recruitments' , js: true do
         expect(page).to have_css('.recruitment__comment--reply', text: reply)
       end
     end
-
   end
 end
