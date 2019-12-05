@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 feature 'Recruitments' , js: true do
+  #
+  # Look for a recruitment for a specified open chat name.
+  # 
+  def find_recruitment(openchat_name:)
+    name = find('.recruitment__openchat-name', text: openchat_name)
+    return name.find(:xpath,"..")
+  end
+
   # 
   # Create a new recruitment and return a new recruitment
   #
@@ -16,12 +24,14 @@ feature 'Recruitments' , js: true do
     return find_recruitment openchat_name: openchat_name
   end
 
-  #
-  # Look for a recruitment for a specified open chat name.
   # 
-  def find_recruitment(openchat_name:)
-    name = find('.recruitment__openchat-name', text: openchat_name)
-    return name.find(:xpath,"..")
+  # Search comments for the specified text in the recruitment
+  #
+  def find_comment(recruitment:, comment:)
+    within recruitment do
+      comment_text = find('.recruitment__comment', text: comment)
+      return comment_text.find(:xpath,"..")
+    end
   end
 
   # 
@@ -37,16 +47,6 @@ feature 'Recruitments' , js: true do
     return find_comment recruitment: recruitment, comment: comment
   end
   
-  # 
-  # Search comments for the specified text in the recruitment
-  #
-  def find_comment(recruitment:, comment:)
-    within recruitment do
-      comment_text = find('.recruitment__comment', text: comment)
-      return comment_text.find(:xpath,"..")
-    end
-  end
-
   #
   # Find a reply for a specified comment 
   #
@@ -63,6 +63,7 @@ feature 'Recruitments' , js: true do
   def reply_to(openchat_name:, target:, text:, password:) 
     within target do
       click_on 'Reply'
+
       within find('form') do
         fill_in 'Reply', with: text
         fill_in 'Reply Password', with: password
@@ -121,10 +122,6 @@ feature 'Recruitments' , js: true do
         password: password
 
     page.save_screenshot("EditRecruitment-#{DateTime.now}.png")
-    within recruitment_before_edit do
-      expect(page).to have_css('.recruitment__openchat-name', text: openchat_name)
-      expect(page).to have_css('.recruitment__description', text: description)
-    end
 
     within recruitment_before_edit do
       click_on 'Edit'
@@ -162,10 +159,6 @@ feature 'Recruitments' , js: true do
         password: correct_password
 
     page.save_screenshot("EditRecruitment-#{DateTime.now}.png")
-    within recruitment_before_edit do
-      expect(page).to have_css('.recruitment__openchat-name', text: openchat_name)
-      expect(page).to have_css('.recruitment__description', text: description)
-    end
 
     within recruitment_before_edit do
       click_on 'Edit'
@@ -194,10 +187,6 @@ feature 'Recruitments' , js: true do
         password: password
 
     page.save_screenshot("EditRecruitment-#{DateTime.now}.png")
-    within recruitment_before_destroy do
-      expect(page).to have_css('.recruitment__openchat-name', text: openchat_name)
-      expect(page).to have_css('.recruitment__description', text: description)
-    end
 
     within recruitment_before_destroy do
       click_on 'Edit'
@@ -226,10 +215,6 @@ feature 'Recruitments' , js: true do
       password: correct_password
 
     page.save_screenshot("EditRecruitment-#{DateTime.now}.png")
-    within recruitment_before_edit do
-      expect(page).to have_css('.recruitment__openchat-name', text: openchat_name)
-      expect(page).to have_css('.recruitment__description', text: description)
-    end
 
     within recruitment_before_edit do
       click_on 'Edit'
@@ -260,9 +245,6 @@ feature 'Recruitments' , js: true do
         password: password
 
     page.save_screenshot("BeforeComment-#{DateTime.now}.png")
-
-    recruitment_after_comment = 
-      find_recruitment openchat_name: openchat_name
 
     comment_on recruitment: recruitment_before_comment,
       comment: comment,
@@ -297,7 +279,6 @@ feature 'Recruitments' , js: true do
     page.save_screenshot("AfterComment-#{DateTime.now}.png")
 
     within recruitment_before_comment do
-      expect(page).to have_css('.recruitment__comment', text: comment) 
       click_on 'Edit'
     end
 
