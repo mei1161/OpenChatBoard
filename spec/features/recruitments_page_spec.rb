@@ -34,9 +34,9 @@ feature 'Recruitments' , js: true do
       fill_in 'Comment',with: comment 
       fill_in 'Comment Password',with: password
       click_on 'Comment'
-
-      return find_comment(recruitment:recruitment, comment:comment)
     end
+
+    return find_comment(recruitment:recruitment, comment:comment)
   end
   
 
@@ -45,36 +45,35 @@ feature 'Recruitments' , js: true do
   #
   def find_comment(recruitment:, comment:)
     within recruitment do
-     comment_text = find('recruitment__comment',text: comment)
-     rerturn comment_text.find(:xpath,"..")
+      comment_text = find('.recruitment__comment',text: comment)
+      return comment_text.find(:xpath,"..")
     end
   end
 
+  def find_comment_with_parent( parent:, comment:)
+    within parent do
+      comment_text = find('.recruitment__comment--reply',text: comment)
+      return comment_text.find(:xpath,"..")
+    end
+  end
 
   # 
   # Reply to the specified recruitment comment and return the reply 
   #
-  def reply_to(openchat_name:, target:, text:, password:)
+  def reply_to(openchat_name:, target:, text:, password:) 
     within target do
-      fill_in 'Reply_Comment', with: text
-      fill_in 'Reply Password', with: password
       click_on 'Reply'
+      within find('form') do
+        fill_in 'Reply', with: text
+        fill_in 'Reply Password', with: password
+        click_on 'Reply'
+      end
     end
-
-    target_recruitment = find_recruitment(openchat_name:openchat_name)
-    target_comment = find_comment(recruitment:target_recruitment, text:text)
-    find_reply(coment:target_comment, text: text)
+    
+    find_comment_with_parent(parent:target, comment: text)
   end
 
-  #
-  # Get a reply with specified criteria 
-  #
-  def find_reply(recruitment:, comment:, text:)
-    within comment do
-      reply_text = find('.recruitment__comment--reply',text:text)
-      return reply_text.find(xpath: "..")
-    end
-  end
+
 
   #
   # Show-recruitment
@@ -271,8 +270,8 @@ feature 'Recruitments' , js: true do
       comment:comment,
       password:password)
 
-    within(before_comment) do
-      expect(page).to have_css('.recruitment__comment',text: comment) 
+    within before_comment do
+      expect(page).to have_css('.recruitment__comment',text: comment ) 
     end
 
   end
@@ -338,9 +337,12 @@ feature 'Recruitments' , js: true do
       password:password)
 
 
-    target_reply = reply_to(openchat_name:openchat_nane, target:target_comment, text:reply, password:password)
+    page.save_screenshot("Comment-#{DateTime.now}.png")
+    target_reply = reply_to(openchat_name:openchat_name, target:target_comment, text:reply, password:password)
 
-    expect(page).to have_css('.recruitment__comment .recruitment__comment--reply',text: reply)
+    within target_reply do
+      expect(page).to have_css('.recruitment__comment .recruitment__comment--reply',text: reply)
+    end
 
   end
 end
