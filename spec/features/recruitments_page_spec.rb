@@ -42,17 +42,12 @@ feature 'Recruitments' , js: true do
 
     return find_comment comment: comment
   end
-  
-  #
-  # Find a reply for a specified comment 
-  #
-  def find_comment_with_parent(parent:, comment:)
-    within parent do
-      comment_text = find('.recruitment__comment--reply', text: comment)
-      return comment_text.find(:xpath,"..")
-    end
-  end
 
+  def find_reply(comment:)
+    comment_text = find('.recruitment__comment--reply', text: comment)
+    return comment_text.find(:xpath,"..")
+  end
+  
   # 
   # Reply to the specified recruitment comment and return the reply 
   #
@@ -65,9 +60,8 @@ feature 'Recruitments' , js: true do
         fill_in 'Reply Password', with: password
         click_on 'Reply'
       end
+#        return find_reply comment: text
     end
-    
-    find_comment_with_parent parent: target, comment: text
   end
 
   scenario 'Show recruitment lists' do
@@ -203,10 +197,10 @@ feature 'Recruitments' , js: true do
         description: description,
         password: password
 
-    within recruitment_before_comment do
-      comment_on comment: comment, password: password
-      expect(page).to have_css('.recruitment__comment', text: comment) 
-    end
+      within recruitment_before_comment do
+        comment_on comment: comment, password: password
+        expect(page).to have_css('.recruitment__comment', text: comment) 
+      end
   end
 
   scenario 'Delete related comments by deleting recruitment' do
@@ -249,14 +243,20 @@ feature 'Recruitments' , js: true do
 
     within recruitment_before_comment do
       target_comment = comment_on comment: comment, password: password
-      target_reply = 
-        reply_to target: target_comment, 
-          text: reply, 
+      within target_comment do
+        reply_to target: target_comment,
+          text: reply,
           password: password
+        page.save_screenshot("AAA#{DateTime.now}.png")
+    end
+      # target_reply = 
+      #   reply_to target: target_comment, 
+      #     text: reply, 
+      #     password: password
 
-      within target_reply do
-        expect(page).to have_css('.recruitment__comment--reply', text: reply)
-      end
+      # within target_reply do
+      #   expect(page).to have_css('.recruitment__comment', text: reply)
+      # end
     end
   end
 
@@ -277,18 +277,27 @@ feature 'Recruitments' , js: true do
 
     within recruitment_before_comment do
       target_comment = comment_on comment: comment, password: password
-      target_reply = 
-        reply_to target: target_comment, 
-          text: reply_level2,
-          password: password
+      reply_to  target: target_comment,
+        text: reply_level2,
+        password: password
+      target_reply = find_reply comment: reply_level2
 
-      within target_reply do
-        reply_to target: target_reply,
-          text: reply_level3,
-          password: password
+      reply_to target: target_reply,
+        text: reply_level3,
+        password: password
 
-        expect(page).to have_css('.recruitment__comment--reply', text: reply_level3)
+#      target_reply = 
+#        reply_to target: target_comment, 
+#          text: reply_level2,
+#          password: password
+
+    #  within target_reply do
+    #    reply_to target: target_reply,
+    #      text: reply_level3,
+    #      password: password
       end
-    end
+      page.save_screenshot("BBB#{DateTime.now}.png")
+#      expect(page).to have_css('.recruitment__comment recruitment__comment--reply recruitment__comment--reply', text: reply_level3)
+#    end
   end
 end

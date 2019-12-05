@@ -1,0 +1,6 @@
+2019-12-05 14:48:32 WARN Selenium [DEPRECATION] Selenium::WebDriver::Chrome#driver_path= is deprecated. Use Selenium::WebDriver::Chrome::Service#driver_path= instead.
+[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m
+
+Finished in 54.12 seconds (files took 4.52 seconds to load)
+[32m10 examples, 0 failures[0m
+
