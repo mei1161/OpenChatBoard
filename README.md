@@ -1,24 +1,7 @@
 # README
+## これは何か
+LINE OpenChatのトークルームを使っているユーザー向けにメンバー募集の掲示板です。
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+LINE OpenChatの検索機能は、停止されていたり限定的な利用しかできない問題がありますが、
+このウェブサービスを利用することで、メンバーを募集したり、好みのトークルームを見つける助けになります。
+また、コメント機能を利用することで、トークルームについての議論や質問を楽しむことができます。
