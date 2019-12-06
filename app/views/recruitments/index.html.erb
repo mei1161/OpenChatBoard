@@ -55,8 +55,8 @@
         <h3 id="comment-<%= comment[:id] %>">Comment</h3>
         <%= comment.text %>
         <%= link_to 'Reply', "#{recruitments_path}?reply_to=#{comment[:id]}#comment-#{comment[:id]}"%>
-        <%= link_to 'Delete',{type: "a"}%>
-        <% if params[:type] == "a" %>
+        <%= link_to 'Delete', "#{recruitments_path}?delete_to=#{comment[:id]}#comment-#{comment[:id]}"%>
+        <% if comment[:id] == request.query_parameters[:delete_to].to_i %>
           <% print_delete_form(model: [comment.recruitment,comment]) %>
         <% end %>
         <% print_reply_form(model: [recruitment,recruitment.recruitment_comments.new], reply_to: comment[:id],comment: comment) %>
