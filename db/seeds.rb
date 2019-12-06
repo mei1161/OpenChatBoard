@@ -20,7 +20,7 @@ recruitment_002 =
   Recruitment.create :room_name => 'プログラミング学ぼう！',
     :description => 'プログラミング一緒に勉強したい人一緒に勉強しましょう！',
     :room_url => 'https://line.me/ti/g2/u3vxhSTwMzWMd8-lNBuaFA',
-    :password_digest = password_digest
+    :password_digest => password_digest
 
 recruitment_002_comment_001 =
   recruitment_002.recruitment_comments.create :text => "プログラミングやったことがない人でも参加できますか？",
