@@ -15,6 +15,20 @@ class RecruitmentCommentsController < ApplicationController
   end
 
   def destroy
+    @recruitment = Recruitment.find(params[:recruitment_id])
+    @recruitment_comment = @recruitment.recruitment_comments.find(params[:id])
+
+    unless @recruitment_comment.authenticate(comment_params[:password])
+      show_authentication_error
+      redirect_to recruitments_path and return
+    end
+
+    if @recruitment_comment.destroy
+      flash[:notice] = "delete success"
+      redirect_to recruitments_path
+    end
+     #   <%= link_to 'Delete',[comment.recruitment,comment],method: :delete,data: { confirm: 'Are you sure?' } %>
+# 
   end
 
   private
@@ -23,5 +37,8 @@ class RecruitmentCommentsController < ApplicationController
    end
    def comment_params
      params.require(:recruitment_comment).permit(:text,:password)
+   end
+   def  show_authentication_error
+     flash[:notice] = "Password invalid"
    end
 end

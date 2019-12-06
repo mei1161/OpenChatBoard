@@ -1,6 +1,34 @@
-2019-12-05 14:48:32 WARN Selenium [DEPRECATION] Selenium::WebDriver::Chrome#driver_path= is deprecated. Use Selenium::WebDriver::Chrome::Service#driver_path= instead.
-[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m
+2019-12-06 03:44:50 WARN Selenium [DEPRECATION] Selenium::WebDriver::Chrome#driver_path= is deprecated. Use Selenium::WebDriver::Chrome::Service#driver_path= instead.
+[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[31mF[0m
 
-Finished in 54.12 seconds (files took 4.52 seconds to load)
-[32m10 examples, 0 failures[0m
+Failures:
+
+  1) Recruitments Delete Comment with correct password
+     [31mFailure/Error: click_on 'Delete'[0m
+     [31m[0m
+     [31mCapybara::ElementNotFound:[0m
+     [31m  Unable to find link or button "Delete" within #<Capybara::Node::Element tag="li" path="/HTML/BODY[1]/DIV[1]/UL[1]/LI[1]">[0m
+     [36m# /usr/local/bundle/gems/capybara-3.29.0/lib/capybara/node/finders.rb:296:in `block in synced_resolve'[0m
+     [36m# /usr/local/bundle/gems/capybara-3.29.0/lib/capybara/node/base.rb:83:in `synchronize'[0m
+     [36m# /usr/local/bundle/gems/capybara-3.29.0/lib/capybara/node/finders.rb:287:in `synced_resolve'[0m
+     [36m# /usr/local/bundle/gems/capybara-3.29.0/lib/capybara/node/finders.rb:52:in `find'[0m
+     [36m# /usr/local/bundle/gems/capybara-3.29.0/lib/capybara/node/actions.rb:26:in `click_link_or_button'[0m
+     [36m# /usr/local/bundle/gems/capybara-3.29.0/lib/capybara/session.rb:749:in `block (2 levels) in <class:Session>'[0m
+     [36m# /usr/local/bundle/gems/capybara-3.29.0/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'[0m
+     [36m# ./spec/features/recruitments_page_spec.rb:326:in `block (4 levels) in <top (required)>'[0m
+     [36m# /usr/local/bundle/gems/capybara-3.29.0/lib/capybara/session.rb:343:in `within'[0m
+     [36m# /usr/local/bundle/gems/capybara-3.29.0/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'[0m
+     [36m# /usr/local/bundle/gems/capybara-3.29.0/lib/capybara/rspec/matcher_proxies.rb:15:in `within'[0m
+     [36m# ./spec/features/recruitments_page_spec.rb:325:in `block (3 levels) in <top (required)>'[0m
+     [36m# /usr/local/bundle/gems/capybara-3.29.0/lib/capybara/session.rb:343:in `within'[0m
+     [36m# /usr/local/bundle/gems/capybara-3.29.0/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'[0m
+     [36m# /usr/local/bundle/gems/capybara-3.29.0/lib/capybara/rspec/matcher_proxies.rb:15:in `within'[0m
+     [36m# ./spec/features/recruitments_page_spec.rb:318:in `block (2 levels) in <top (required)>'[0m
+
+Finished in 1 minute 4.36 seconds (files took 4.66 seconds to load)
+[31m11 examples, 1 failure[0m
+
+Failed examples:
+
+[31mrspec ./spec/features/recruitments_page_spec.rb:303[0m [36m# Recruitments Delete Comment with correct password[0m
 

@@ -297,7 +297,48 @@ feature 'Recruitments' , js: true do
     #      password: password
       end
       page.save_screenshot("BBB#{DateTime.now}.png")
-#      expect(page).to have_css('.recruitment__comment recruitment__comment--reply recruitment__comment--reply', text: reply_level3)
+      expect(page).to have_css('.recruitment__comment .recruitment__comment--reply', text: reply_level3)
 #    end
+  end
+  scenario 'Delete Comment with correct password' do
+    openchat_name = "test"
+    invite_url = "https://line.me/ti/g2/EUz"
+    description = "aaaa"
+    password = "123"
+    comment = "[level 1] this is a comment"
+    reply_level2 = "[level 2] this is a reply to comment"
+    reply_level3 = "[level 3] this is a reply to reply"
+
+    recruitment_before_comment =
+      recruit openchat_name: openchat_name,
+      invite_url: invite_url,
+      description: description,
+      password: password
+
+    within recruitment_before_comment do
+      target_comment = comment_on comment: comment, password: password
+      reply_to  target: target_comment,
+        text: reply_level2,
+        password: password
+      target_reply = find_reply comment: reply_level2
+
+      within target_reply do
+        click_on 'Delete'
+        fill_in 'Delete Password',with: password
+        click_button "Delete"
+      end
+      #      target_reply = 
+      #        reply_to target: target_comment, 
+      #          text: reply_level2,
+      #          password: password
+
+      #  within target_reply do
+      #    reply_to target: target_reply,
+      #      text: reply_level3,
+      #      password: password
+    end
+    page.save_screenshot("CCC#{DateTime.now}.png")
+    expect(page).to have_no_css('.recruitment__comment .recruitment__comment--reply')
+    #    end
   end
 end

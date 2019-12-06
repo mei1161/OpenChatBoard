@@ -14,6 +14,7 @@
 
     <% def print_reply_form(model:, reply_to:, comment:) %>
       <% if comment[:id] == request.query_parameters[:reply_to].to_i %>
+        <%= link_to 'Cancel',recruitments_path %>
         <%= form_with model:model, local: true do |form| %>
           <p>
             <%= form.label :to, "To" %> 
@@ -36,11 +37,28 @@
       <% end %>
     <% end %>
 
+    <% def print_delete_form(model:) %>
+      <%= form_with model:model, method: :delete, local: true do |form| %>
+          <p>
+            <%= form.label :password, "Delete Password" %>
+            <%= form.password_field :password, required: true %>
+          </p>
+
+          <p>
+            <%= form.submit "Delete" %>
+          </p>
+      <% end %>
+    <% end %>
+
     <% def print_comment(recruitment:, comment:) %>
       <div class="recruitment__comment <%= 'recruitment__comment--reply' if comment.has_parent? %>">
         <h3 id="comment-<%= comment[:id] %>">Comment</h3>
         <%= comment.text %>
-        <%= link_to 'Reply', "#{recruitments_path}?reply_to=#{comment[:id]}#comment-#{comment[:id]}" %>
+        <%= link_to 'Reply', "#{recruitments_path}?reply_to=#{comment[:id]}#comment-#{comment[:id]}"%>
+        <%= link_to 'Delete',{type: "a"}%>
+        <% if params[:type] == "a" %>
+          <% print_delete_form(model: [comment.recruitment,comment]) %>
+        <% end %>
         <% print_reply_form(model: [recruitment,recruitment.recruitment_comments.new], reply_to: comment[:id],comment: comment) %>
         <ul>
           <% comment.children.each do |child| %> 
